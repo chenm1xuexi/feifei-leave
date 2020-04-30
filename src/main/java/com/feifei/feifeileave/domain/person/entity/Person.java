@@ -46,7 +46,7 @@ public class Person {
     /**
      * 人员角色等级
      */
-    int roleLevel;
+    Integer roleLevel;
 
     /**
      * 创建时间
@@ -62,4 +62,15 @@ public class Person {
      * 人员状态，是否可用
      */
     PersonStatus personStatus;
+
+
+    /**
+     * 初始化相关参数
+     */
+    public Person create() {
+        Date now = new Date();
+        return this.setCreateTime(now)
+                .setUpdateTime(now)
+                .setPersonStatus(PersonStatus.ENABLE);
+    }
 }

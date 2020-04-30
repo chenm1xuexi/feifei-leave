@@ -29,9 +29,8 @@ public class LeaveEventListener {
      */
     @EventListener(classes = LeaveEvent.class, condition = "#event.leaveEventType == T(com.feifei.feifeileave.domain.leave.event.LeaveEventType).CREATE_EVENT")
     public void createLeave(LeaveEvent event) {
-        log.info("请假单创建成功事件，监听器开始执行");
         // 这里只是做一个模拟，采用mq的方式调用消息微服务去发送短信或者其他的通知方式
-        // packageSMS(event);
+        log.info("请假单创建成功事件，监听器开始执行");
         // mq.sendCreateSMS();
         log.info("请假单创建成功事件，监听器执行完成");
     }
@@ -46,8 +45,8 @@ public class LeaveEventListener {
      */
     @EventListener(classes = LeaveEvent.class, condition = "#event.leaveEventType == T(com.feifei.feifeileave.domain.leave.event.LeaveEventType).REJECT_EVENT")
     public void rejectLeave(LeaveEvent event) {
-        log.info("请假单拒绝事件，监听器开始执行");
         // 这里只是做一个模拟，采用mq的方式调用消息微服务去发送短信或者其他的通知方式
+        log.info("请假单拒绝事件，监听器开始执行");
         // mq.sendRejectSMS();
         log.info("请假单拒绝事件，监听器执行完成");
     }
@@ -62,8 +61,8 @@ public class LeaveEventListener {
      */
     @EventListener(classes = LeaveEvent.class, condition = "#event.leaveEventType == T(com.feifei.feifeileave.domain.leave.event.LeaveEventType).AGREE_EVENT")
     public void agreeLeave(LeaveEvent event) {
-        log.info("请假单审批通过事件，监听器开始执行");
         // 这里只是做一个模拟，采用mq的方式调用消息微服务去发送短信或者其他的通知方式
+        log.info("请假单审批通过事件，监听器开始执行");
         // mq.sendAgreeSMS();
         log.info("请假单审批通过事件，监听器执行完成");
     }
@@ -78,8 +77,8 @@ public class LeaveEventListener {
      */
     @EventListener(classes = LeaveEvent.class, condition = "#event.leaveEventType == T(com.feifei.feifeileave.domain.leave.event.LeaveEventType).APPROVED_EVENT")
     public void approvedLeave(LeaveEvent event) {
-        log.info("请假单审批完成事件，监听器开始执行");
         // 这里只是做一个模拟，采用mq的方式调用消息微服务去发送短信或者其他的通知方式
+        log.info("请假单审批完成事件，监听器开始执行");
         // mq.sendApproveSMS();
         log.info("请假单审批完成事件，监听器执行完成");
     }

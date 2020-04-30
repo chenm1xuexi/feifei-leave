@@ -31,5 +31,5 @@ public class RelationShip {
      */
     String leaderId;
 
-    int leaderLevel;
+    Integer leaderLevel;
 }

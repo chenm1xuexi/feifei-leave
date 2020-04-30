@@ -2,6 +2,8 @@ package com.feifei.feifeileave.application;
 
 import com.feifei.feifeileave.domain.leave.entity.Leave;
 
+import java.util.List;
+
 /**
  * 请假应用服务
  * 用于请假服务的编排和转发，该层不可参杂业务逻辑，不然会违反ddd的设计思想
@@ -51,4 +53,24 @@ public interface LeaveApplicationService {
      * @return
      */
     Leave findById(Long leaveId);
+
+    /**
+     * 通过申请人id获取请假单列表信息
+     *
+     * @author shixiongfei
+     * @date 2020/4/29 8:33 下午
+     * @param applicantId 申请人id
+     * @return
+     */
+    List<Leave> listByApplicant(String applicantId);
+
+    /**
+     * 获取审批人的代办任务列表
+     *
+     * @author shixiongfei
+     * @date 2020/4/30 5:31 下午
+     * @param approverId
+     * @return
+     */
+    List<Leave> listByApprover(String approverId);
 }

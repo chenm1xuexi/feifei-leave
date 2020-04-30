@@ -6,8 +6,7 @@ import com.feifei.feifeileave.domain.person.entity.valueobject.PersonStatus;
 import com.feifei.feifeileave.domain.person.repository.po.PersonPO;
 import org.apache.ibatis.annotations.Mapper;
 
-import static com.feifei.feifeileave.domain.person.repository.po.PersonPO.COL_PERSON_ID;
-import static com.feifei.feifeileave.domain.person.repository.po.PersonPO.COL_PERSON_STATUS;
+import static com.feifei.feifeileave.domain.person.repository.po.PersonPO.*;
 
 @Mapper
 public interface PersonPOMapper extends BaseMapper<PersonPO> {
@@ -15,6 +14,13 @@ public interface PersonPOMapper extends BaseMapper<PersonPO> {
     default PersonPO getById(Long personId) {
         QueryWrapper<PersonPO> wrapper = new QueryWrapper<>();
         wrapper.eq(COL_PERSON_ID, personId)
+                .eq(COL_PERSON_STATUS, PersonStatus.ENABLE.toString());
+        return selectOne(wrapper);
+    }
+
+    default PersonPO getByName(String personName) {
+        QueryWrapper<PersonPO> wrapper = new QueryWrapper<>();
+        wrapper.eq(COL_PERSON_NAME, personName)
                 .eq(COL_PERSON_STATUS, PersonStatus.ENABLE.toString());
         return selectOne(wrapper);
     }

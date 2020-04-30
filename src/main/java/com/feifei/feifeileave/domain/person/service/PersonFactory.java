@@ -29,4 +29,15 @@ public class PersonFactory {
                 .setCreateTime(po.getCreateTime())
                 .setUpdateTime(po.getUpdateTime());
     }
+
+    public PersonPO createPersonPO(Person person) {
+        return new PersonPO()
+                .setPersonId(person.getPersonId())
+                .setPersonName(person.getPersonName())
+                .setPersonStatus(person.getPersonStatus().name())
+                .setPersonType(person.getPersonType().name())
+                .setCreateTime(person.getCreateTime())
+                .setUpdateTime(person.getUpdateTime())
+                .setRoleLevel(person.getRoleLevel());
+    }
 }

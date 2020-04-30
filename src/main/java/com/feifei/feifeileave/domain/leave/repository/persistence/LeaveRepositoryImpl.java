@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,5 +53,25 @@ public class LeaveRepositoryImpl implements LeaveRepository {
         List<ApprovalInfoPO> infoPOS = approvalInfoMapper.listApprovalInfoByLeaveId(leaveId);
         leavePO.setHistoryApprovalInfos(infoPOS);
         return leavePO;
+    }
+
+    @Override
+    public List<LeavePO> listByApplicantId(String applicantId) {
+        List<LeavePO> leavePOList =
+                Optional.ofNullable(leaveMapper.listByApplicantId(applicantId))
+                        .orElse(Collections.emptyList());
+        // 获取历史审批意见列表
+        leavePOList.forEach(po -> po.setHistoryApprovalInfos(approvalInfoMapper.listApprovalInfoByLeaveId(po.getLeaveId())));
+        return leavePOList;
+    }
+
+    @Override
+    public List<LeavePO> listByApproverId(String approverId) {
+        List<LeavePO> leavePOList =
+                Optional.ofNullable(leaveMapper.listByApproverId(approverId))
+                        .orElse(Collections.emptyList());
+        // 获取历史审批意见列表
+        leavePOList.forEach(po -> po.setHistoryApprovalInfos(approvalInfoMapper.listApprovalInfoByLeaveId(po.getLeaveId())));
+        return leavePOList;
     }
 }

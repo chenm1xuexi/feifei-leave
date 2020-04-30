@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * 请假 领域服务 切记领域服务只用来调用自身聚合内部的业务，明确业务边界
@@ -61,7 +62,7 @@ public class LeaveDomainService {
      * @author shixiongfei
      * @date 2020/4/21 10:57 下午
      */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = LeaveException.class)
     public void createLeave(Leave leave, int leaderMaxLevel, Approver fromPerson) {
         leave.setLeaderMaxLevel(leaderMaxLevel)
                 .setApprover(fromPerson);
@@ -87,7 +88,7 @@ public class LeaveDomainService {
      * @author shixiongfei
      * @date 2020/4/28 4:19 下午
      */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = LeaveException.class)
     public void updateLeaveInfo(Leave leave) {
         Long leaveId = leave.getLeaveId();
         LeavePO po = leaveMapper.selectById(leaveId);
@@ -114,7 +115,7 @@ public class LeaveDomainService {
      * @author shixiongfei
      * @date 2020/4/28 8:33 下午
      */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = LeaveException.class)
     public void submitApproval(Leave leave, Approver nextApprover) {
         LeaveEvent leaveEvent = null;
         ApprovalType approvalType = leave.getApprovalInfo().getApprovalType();
@@ -151,14 +152,30 @@ public class LeaveDomainService {
     /**
      * 通过请假单标识获取leave详情
      *
-     * @author shixiongfei
-     * @date 2020/4/28 9:49 下午
      * @param leaveId
      * @return
+     * @author shixiongfei
+     * @date 2020/4/28 9:49 下午
      */
-    @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+    @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED, rollbackFor = LeaveException.class)
     public Leave findByLeaveId(Long leaveId) {
         LeavePO po = leaveRepository.findByLeaveId(leaveId);
         return leaveFactory.getLeave(po);
+    }
+
+    @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED, rollbackFor = LeaveException.class)
+    public List<Leave> listByApplicant(String applicantId) {
+        List<LeavePO> leavePOList = leaveRepository.listByApplicantId(applicantId);
+        return leavePOList.stream()
+                .map(leaveFactory::getLeave)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED, rollbackFor = LeaveException.class)
+    public List<Leave> listByApprover(String approverId) {
+        List<LeavePO> leavePOList = leaveRepository.listByApproverId(approverId);
+        return leavePOList.stream()
+                .map(leaveFactory::getLeave)
+                .collect(Collectors.toList());
     }
 }

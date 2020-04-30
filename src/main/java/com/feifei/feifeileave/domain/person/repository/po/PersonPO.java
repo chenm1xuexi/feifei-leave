@@ -4,66 +4,71 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.experimental.Accessors;
+import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
 
 @Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Accessors(chain = true)
 @TableName(value = "leave_person")
 public class PersonPO {
     /**
      * 资源主键
      */
-    @TableId(value = "person_id", type = IdType.AUTO)
-    private Long personId;
+    @TableId(value = "person_id", type = IdType.ASSIGN_ID)
+    Long personId;
 
     /**
      * 人员名称
      */
     @TableField(value = "person_name")
-    private String personName;
+    String personName;
 
     /**
      * 部门id
      */
     @TableField(value = "department_id")
-    private Long departmentId;
+    Long departmentId;
 
     /**
      * 人员类型
      */
     @TableField(value = "person_type")
-    private String personType;
+    String personType;
 
     /**
      * 领导id，来自关联表, 用此来标识关联的可审批人列表
      */
     @TableField(value = "leader_id")
-    private Long leaderId;
+    Long leaderId;
 
     /**
      * 角色级别
      */
     @TableField(value = "role_level")
-    private Integer roleLevel;
+    Integer roleLevel;
 
     /**
      * 创建时间
      */
     @TableField(value = "create_time")
-    private Date createTime;
+    Date createTime;
 
     /**
      * 更新时间
      */
     @TableField(value = "update_time")
-    private Date updateTime;
+    Date updateTime;
 
     /**
      * 用户状态，是否可用
      */
     @TableField(value = "person_status")
-    private String personStatus;
+    String personStatus;
 
     public static final String COL_PERSON_ID = "person_id";
 

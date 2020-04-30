@@ -11,6 +11,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 请假应用服务具体实现类,应用服务可以跨聚合进行调用，主要是为了实现服务之间的编排和组合转发
  * 应用层也可以直接调用仓储层的接口（切记应用层不可包含领域层的业务逻辑）
@@ -57,5 +59,15 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
     @Override
     public Leave findById(Long leaveId) {
         return leaveDomainService.findByLeaveId(leaveId);
+    }
+
+    @Override
+    public List<Leave> listByApplicant(String applicantId) {
+        return leaveDomainService.listByApplicant(applicantId);
+    }
+
+    @Override
+    public List<Leave> listByApprover(String approverId) {
+        return leaveDomainService.listByApprover(approverId);
     }
 }

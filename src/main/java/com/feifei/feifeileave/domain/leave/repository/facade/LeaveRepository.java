@@ -2,6 +2,8 @@ package com.feifei.feifeileave.domain.leave.repository.facade;
 
 import com.feifei.feifeileave.domain.leave.repository.po.LeavePO;
 
+import java.util.List;
+
 /**
  * 请假单仓储接口，本来具体实现交由基础设施层去完成，
  * 但是由于数据库一般不会进行变更，因此具体实现也放置到领域层中
@@ -43,4 +45,24 @@ public interface LeaveRepository {
      * @return
      */
     LeavePO findByLeaveId(Long leaveId);
+
+    /**
+     *  通过申请人id获取请假单列表
+     *
+     * @author shixiongfei
+     * @date 2020/4/29 8:41 下午
+     * @param applicantId 申请人id
+     * @return
+     */
+    List<LeavePO> listByApplicantId(String applicantId);
+
+    /**
+     * 获取代办任务列表
+     *
+     * @author shixiongfei
+     * @date 2020/4/30 5:34 下午
+     * @param approverId
+     * @return
+     */
+    List<LeavePO> listByApproverId(String approverId);
 }

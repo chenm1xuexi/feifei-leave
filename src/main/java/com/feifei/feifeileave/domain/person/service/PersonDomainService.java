@@ -2,7 +2,9 @@ package com.feifei.feifeileave.domain.person.service;
 
 import com.feifei.feifeileave.domain.person.entity.Person;
 import com.feifei.feifeileave.domain.person.repository.facade.PersonRepository;
+import com.feifei.feifeileave.domain.person.repository.mapper.PersonPOMapper;
 import com.feifei.feifeileave.domain.person.repository.po.PersonPO;
+import com.feifei.feifeileave.infrastructure.LeaveException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,8 @@ public class PersonDomainService {
     PersonRepository personRepository;
 
     PersonFactory personFactory;
+
+    PersonPOMapper personMapper;
 
     /**
      * 通过申请人和最大审批规则级别来获取下一审批人
@@ -71,5 +75,25 @@ public class PersonDomainService {
             return null;
         }
         return personFactory.createPerson(leader);
+    }
+
+    /**
+     * 创建一个人员信息，前提是当前人员不存在
+     *
+     * @author shixiongfei
+     * @date 2020/4/30 6:09 下午
+     * @param person 人员实体
+     * @return
+     */
+    public void create(Person person) {
+        // 查询是否存在同名的人员
+        PersonPO po = personMapper.getByName(person.getPersonName());
+        if (Objects.isNull(po)) {
+            throw new LeaveException("person already exists, please check");
+        }
+        // TODO 判断leader是否为空，不为空则判断是否存在此人员信息
+        // 新增前初始化相关参数
+        person.create();
+        personMapper.insert(personFactory.createPersonPO(person));
     }
 }

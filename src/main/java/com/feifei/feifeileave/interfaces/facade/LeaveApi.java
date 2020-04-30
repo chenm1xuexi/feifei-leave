@@ -10,7 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.feifei.feifeileave.infrastructure.common.api.ApiConstants.LEAVE;
 
@@ -93,5 +95,35 @@ public class LeaveApi {
     @GetMapping("/{leaveId}")
     public RichResult<LeaveDTO> findById(@PathVariable Long leaveId) {
         return RichResult.ok(LeaveAssembler.toDTO(leaveApplicationService.findById(leaveId)));
+    }
+
+    /**
+     * 根据申请人查询请假单列表
+     *
+     * @author shixiongfei
+     * @date 2020/4/29 8:10 下午
+     * @param applicantId
+     * @return
+     */
+    @GetMapping("/query/applicant/{applicantId}")
+    public RichResult<List<LeaveDTO>> listByApplicant(@PathVariable String applicantId) {
+        List<Leave> leaveList = leaveApplicationService.listByApplicant(applicantId);
+        List<LeaveDTO> list = leaveList.stream().map(LeaveAssembler::toDTO).collect(Collectors.toList());
+        return RichResult.ok(list);
+    }
+
+    /**
+     * 通过审批人获取待审批请假单列表（待办任务）
+     *
+     * @author shixiongfei
+     * @date 2020/4/30 5:30 下午
+     * @param approverId 审批人id
+     * @return
+     */
+    @GetMapping("/query/approver/{approverId}")
+    public RichResult<List<LeaveDTO>> listByApprover(@PathVariable String approverId) {
+        List<Leave> leaveList = leaveApplicationService.listByApprover(approverId);
+        List<LeaveDTO> list = leaveList.stream().map(LeaveAssembler::toDTO).collect(Collectors.toList());
+        return RichResult.ok(list);
     }
 }

@@ -9,4 +9,8 @@ package com.feifei.feifeileave.infrastructure.common.api;
 public interface ApiConstants {
 
     String LEAVE = "/leave";
+
+    String PERSONAL = "/personal";
+
+    String AUTH = "/auth";
 }
